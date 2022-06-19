@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
     private void PickUpWeapon()
     {
-        if (_haveWeapon == false)
+        /*if (_haveWeapon == false)
         {
             _haveWeapon = true;
             _weapon.gameObject.SetActive(_haveWeapon);
@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
         {
             _haveWeapon = false;
             _weapon.gameObject.SetActive(_haveWeapon);
-        }
+        }*/
+        _haveWeapon = !_haveWeapon;
+        _weapon.gameObject.SetActive(_haveWeapon);
     }
 }

@@ -18,11 +18,14 @@ public class PlayerMovement : Player
     private Vector2 _currentDirectionVelocity = Vector2.zero;
 
     private CharacterController controller;
+    private Animator _animator;
 
     protected override void Awake()
     {
         base.Awake();
-        _playerInput.Player.Jump.performed += ctx => JumpCheck();
+
+        _animator = GetComponent<Animator>();
+        _playerInput.Player.Jump.performed += ctx => ApplyJump();
     }
 
     private void Start()
@@ -38,23 +41,27 @@ public class PlayerMovement : Player
     private void Movement()
     {
         Vector2 targetDirection = _playerInput.Player.Move.ReadValue<Vector2>();
-        //targetDirection.Normalize();
+
+        if (targetDirection != Vector2.zero)
+            _animator.SetBool("IsWalk", true);
+        else if (targetDirection == Vector2.zero)
+            _animator.SetBool("IsWalk", false);
 
         _currentDirection = Vector2.SmoothDamp(_currentDirection, targetDirection, ref _currentDirectionVelocity, _moveSmothTime);
 
         if (controller.isGrounded)
-        {
             _velocityY = 0.0f;
-        }
 
         _velocityY += _gravity * Time.deltaTime;
 
         Vector3 velocity = (transform.forward * _currentDirection.y + transform.right * _currentDirection.x) * _walkSpeed + Vector3.up * _velocityY;
 
+        _animator.SetFloat("VelocityX", velocity.x);
+        _animator.SetFloat("VelocityY", velocity.z);
         controller.Move(velocity * Time.deltaTime);
     }
 
-    private void JumpCheck()
+    private void ApplyJump()
     {
         if (_isJumping == false)
         {

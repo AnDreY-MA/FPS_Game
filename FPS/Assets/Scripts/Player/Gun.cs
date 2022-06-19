@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Gun : Player
@@ -12,9 +12,5 @@ public class Gun : Player
         _playerInput.Player.Fire.performed += ctx => Shoot();
     }
 
-    private void Shoot()
-    {
-        _bullet.Play();
-        print("Play");
-    }
+    private void Shoot() => _bullet.Play();
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Target : MonoBehaviour
 {
     [SerializeField] private int _health = 10;
@@ -10,6 +11,4 @@ public class Target : MonoBehaviour
         if (_health <= 0)
             Destroy(gameObject);
     }
-
-    
 }

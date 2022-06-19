@@ -5,6 +5,7 @@ public class PlayerInteration : Player
     [SerializeField] private float _takeDistance;
     [SerializeField] private float _holdDistance;
     [SerializeField] private float _forceThrow;
+    [SerializeField] private GameObject _hand;
     [SerializeField] private Gun _gun;
 
     private bool _isPickUping = false;
@@ -19,6 +20,12 @@ public class PlayerInteration : Player
         _playerInput.Player.Throw.performed += ctx => Throw();
     }
 
+    private void Update()
+    {
+        if(_currentObject != null)
+            _currentObject.transform.position = _hand.transform.position;
+    }
+
     private void PickUp()
     {
         if (Physics.Raycast(transform.position, transform.forward, out var hitInfo, _takeDistance) && hitInfo.collider.gameObject.isStatic == false && _isPickUping == false)
@@ -27,7 +34,8 @@ public class PlayerInteration : Player
 
             _currentObject.transform.position = default;
             _currentObject.transform.SetParent(transform, worldPositionStays: false);
-            _currentObject.transform.localPosition += new Vector3(0, 2, _holdDistance);
+            //_currentObject.transform.localPosition += new Vector3(0, 2, _holdDistance);
+            
 
             _currentObject.GetComponent<Rigidbody>().isKinematic = true;
 
@@ -53,6 +61,7 @@ public class PlayerInteration : Player
                 ridigbody.AddForce(transform.forward * _forceThrow, ForceMode.Impulse);
             _gun.gameObject.SetActive(true);
             _isPickUping = false;
+            _currentObject = null;
         }
     }
 }

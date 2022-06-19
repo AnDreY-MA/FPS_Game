@@ -6,7 +6,6 @@ public class PlayerCamera : Player
     [SerializeField] private float _mouseSensivity = 4f;
     [SerializeField] private float _mouseSmothTime = 0.03f;
 
-    private bool lockCursor = true;
 
     private float _cameraPitch = 0;
 
@@ -15,11 +14,8 @@ public class PlayerCamera : Player
 
     private void Start()
     {
-        if (lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+          Cursor.lockState = CursorLockMode.Locked;
+          Cursor.visible = false;
     }
 
     private void Update()
